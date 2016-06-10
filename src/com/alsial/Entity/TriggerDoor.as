@@ -21,6 +21,7 @@ package com.alsial.Entity
 		private var _bool:Boolean;
 		
 		
+		
 		public function TriggerDoor(xPos:Number,yPos:Number,active:Boolean=true) 
 		{
 			type = Opt.TRIGGERDOOR;
@@ -49,10 +50,8 @@ package com.alsial.Entity
 			
 			if (activeB) 
 			{
-				trace("xxx");
 				sprSwordguy.play("y");
 			}else {
-				trace("yyy");
 				sprSwordguy.play("n");
 			}			
 			

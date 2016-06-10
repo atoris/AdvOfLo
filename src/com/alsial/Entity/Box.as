@@ -16,8 +16,6 @@ package com.alsial.Entity
 	public class Box extends StaticEntity
 	{
 		
-		
-		private var _trigger:TriggerClass;
 		public function Box(xPos:Number=0, yPos:Number=0) 
 		{
 			graphic = new Image(Res.BOX);
@@ -25,7 +23,6 @@ package com.alsial.Entity
 			setHitbox(32, 32);
 			x = xPos;
 			y = yPos;	
-			_trigger = new TriggerClass();
 		}
 		
 		override public function update():void 
@@ -33,14 +30,6 @@ package com.alsial.Entity
 			super.update();
 			
 			
-			var triggerButton:TriggerButton = (collide(Opt.TRIGGERBUTTON, x, y)) as TriggerButton;
-			//trace(triggerButton);
-			if (triggerButton) 
-			{
-				_trigger.onActive();
-			}else{
-				_trigger.offActive();
-			}
 		}
 	}
 

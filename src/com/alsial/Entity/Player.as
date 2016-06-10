@@ -10,7 +10,6 @@ package com.alsial.Entity
 	import com.alsial.StepGame;
 	import com.alsial.Opt;
 	import net.flashpunk.FP;
-	import com.alsial.TriggerClass;
 	/**
 	 * ...
 	 * @author Atoris
@@ -33,18 +32,19 @@ package com.alsial.Entity
 		private var _boxU:Box;
 		private var _boxD:Box;
 		
-		private var _step:StepGame;
+		private var _tgdL:TriggerDoor;
+		private var _tgdR:TriggerDoor;
+		private var _tgdD:TriggerDoor;
+		private var _tgdU:TriggerDoor;
 		
-		private var _trigger:TriggerClass;
+		
+		private var _step:StepGame;
 		public function Player(x:Number=0, y:Number=0) 
 		{
 			super(x, y);			
 			graphic = new Image(Res.PLAYER);
 			setHitbox(32, 32);
-			
-			
-			_trigger = new TriggerClass();
-			
+			type = Opt.PLAYER;		
 			_step = new StepGame(32,4);
 			Input.define("Left", Key.A, Key.LEFT);
 			Input.define("Right", Key.D, Key.RIGHT);
@@ -69,6 +69,13 @@ package com.alsial.Entity
 			_boxU = collide(Opt.BOX, x, y - 1) as Box;
 			_boxD = collide(Opt.BOX, x, y + 1) as Box;	
 			
+			_tgdL = collide(Opt.TRIGGERDOOR, x - 1, y) as TriggerDoor;
+			_tgdR = collide(Opt.TRIGGERDOOR, x + 1, y) as TriggerDoor;
+			_tgdU = collide(Opt.TRIGGERDOOR, x, y - 1) as TriggerDoor;
+			_tgdD = collide(Opt.TRIGGERDOOR, x, y + 1) as TriggerDoor;	
+			
+			
+			//trace(_tgdL,_tgdR,_tgdU,_tgdD);
 			
 			var star:Star = collide(Opt.STAR, x, y) as Star;
 			if (star) 
@@ -85,36 +92,21 @@ package com.alsial.Entity
 				}
 			}
 			
-			var triggerButton:TriggerButton = (collide(Opt.TRIGGERBUTTON, x, y)) as TriggerButton;
-			//trace(triggerButton);
-			
-			if (triggerButton) 
-			{
-				_trigger.onActive();
-			}else{
-				_trigger.offActive();
-			}
-			
-			
 			if (_step.moveP) 
 			{
 				if (_kLeft){
-					_mLeft = (collide(Opt.WALL, x - 1, y) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
+					_mLeft = (collide(Opt.WALL, x - 1, y) || (_tgdL != null && !_tgdL.activeB) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
 				}				
 				if (_kRight){
-					_mRight = (collide(Opt.WALL, x + 1, y) || (_boxR != null && !_boxR.moveRightB))?false:true;					
+					_mRight = (collide(Opt.WALL, x + 1, y) || (_tgdR != null && !_tgdR.activeB) || (_boxR != null && !_boxR.moveRightB))?false:true;					
 				}				
 				if (_kDown){
-					_mDown = (collide(Opt.WALL, x, y + 1) || (_boxD != null && !_boxD.moveDownB))?false:true;										
+					_mDown = (collide(Opt.WALL, x, y + 1) || (_tgdD != null && !_tgdD.activeB) || (_boxD != null && !_boxD.moveDownB))?false:true;										
 				}
 				if (_kUp){
-					_mUp = (collide(Opt.WALL, x, y - 1) || (_boxU != null && !_boxU.moveUpB))?false:true;						
+					_mUp = (collide(Opt.WALL, x, y - 1) || (_tgdU != null && !_tgdU.activeB) || (_boxU != null && !_boxU.moveUpB))?false:true;						
 				}				
 			}
-			
-			
-			
-			
 		}
 		
 		

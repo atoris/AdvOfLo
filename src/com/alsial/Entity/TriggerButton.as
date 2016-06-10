@@ -7,6 +7,7 @@ package com.alsial.Entity
 	import com.alsial.Opt;
 	import net.flashpunk.graphics.Spritemap;
 	import com.alsial.GameWorld;
+	import com.alsial.TriggerClass;
 	/**
 	 * ...
 	 * @author Atoris
@@ -17,6 +18,7 @@ package com.alsial.Entity
 		public var activeB:Boolean;
 		public var _bool:Boolean;
 		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, 32, 32);
+		private var _trigger:TriggerClass;
 		public function TriggerButton(xPos:Number = 0, yPos:Number = 0, active:Boolean = true ) 
 		{
 			activeB = active;
@@ -35,6 +37,7 @@ package com.alsial.Entity
 			setHitbox(32, 32);
 			x = xPos;
 			y = yPos;
+			_trigger = new TriggerClass();
 			
 		}
 		
@@ -42,6 +45,17 @@ package com.alsial.Entity
 		override public function update():void 
 		{
 			super.update();
+			
+			var player:Player = collide(Opt.PLAYER, x, y) as Player;
+			var box:Box = collide(Opt.BOX, x, y) as Box;
+			
+			
+			if (player || box) 
+			{			
+				_trigger.onActive();				
+			}else{
+				_trigger.offActive();				
+			}
 			
 		}
 		
