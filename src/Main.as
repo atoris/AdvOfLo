@@ -13,7 +13,7 @@ package
 	public class Main extends Engine 
 	{
 		//test
-		//axxx
+		//
 		public function Main() 
 		{
 			super(640, 480, 60);
