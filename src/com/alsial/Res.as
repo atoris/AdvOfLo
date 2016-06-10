@@ -6,6 +6,7 @@ package com.alsial
 	 */
 	public class Res 
 	{
+	//7
 		[Embed(source = 'assets/wall.png')] public static const WALL:Class;
 		[Embed(source = 'assets/stone.png')] public static const STONE:Class;
 		[Embed(source = 'assets/star.png')] public static const STAR:Class;
