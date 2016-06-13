@@ -39,6 +39,9 @@ package com.alsial.Entity
 		
 		
 		private var _step:StepGame;
+		
+		
+		
 		public function Player(x:Number=0, y:Number=0) 
 		{
 			super(x, y);			

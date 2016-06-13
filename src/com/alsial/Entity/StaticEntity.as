@@ -7,6 +7,7 @@ package com.alsial.Entity
 	import com.alsial.StepGame;
 	import com.alsial.Opt;
 	import com.alsial.GameWorld;
+	import com.alsial.CollideEntity;
 	/**
 	 * ...
 	 * @author Atoris
@@ -25,8 +26,11 @@ package com.alsial.Entity
 		private var _tgdR:TriggerDoor;
 		private var _tgdD:TriggerDoor;
 		private var _tgdU:TriggerDoor;
+		
+		private var _collide:CollideEntity;
 		public function StaticEntity(xPos:Number=0,yPos:Number=0) 
 		{
+			_collide = new CollideEntity(this,[Opt.WALL,Opt.TRIGGERDOOR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.BOX]);
 			//_pos = new Point(int(y/32),int(x/32));
 		}
 		
@@ -36,24 +40,12 @@ package com.alsial.Entity
 			super.update();
 			
 			
-			_tgdL = collide(Opt.TRIGGERDOOR, x - 1, y) as TriggerDoor;
-			_tgdR = collide(Opt.TRIGGERDOOR, x + 1, y) as TriggerDoor;
-			_tgdU = collide(Opt.TRIGGERDOOR, x, y - 1) as TriggerDoor;
-			_tgdD = collide(Opt.TRIGGERDOOR, x, y + 1) as TriggerDoor;	
+			_moveLeftB =  !_collide.getLeft();
+			_moveRightB =  !_collide.getRight();
+			_moveDownB =  !_collide.getDown();
+			_moveUpB =  !_collide.getUp();
 			
-			
-			var ml:Boolean = (_tgdL != null)// && _tgdL.activeB;
-			var mr:Boolean = (_tgdR != null)// && _tgdR.activeB;
-			var md:Boolean = (_tgdD != null)// && _tgdD.activeB;
-			var mu:Boolean = (_tgdU != null)// && _tgdU.activeB;
-			
-			
-			_moveLeftB = (!collide(Opt.WALL, x - 1, y) && !ml);
-			_moveRightB = (!collide(Opt.WALL, x + 1, y) && !mr);
-			_moveDownB = (!collide(Opt.WALL, x, y + 1) && !md);
-			_moveUpB = (!collide(Opt.WALL, x, y - 1) && !mu);
-			
-			trace(_moveLeftB,_moveRightB,_moveDownB,_moveUpB);
+			//trace(_collide.getLeft(),_collide.type);
 		}
 		public function moveLeft():void {
 			if (_moveLeftB)
