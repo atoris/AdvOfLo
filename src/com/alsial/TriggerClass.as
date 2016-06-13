@@ -15,19 +15,19 @@ package com.alsial
 		
 		public function onActive():void 
 		{			
-			//trace(GameWorld.arrDoor.length);
 			for (var i:int = 0; i < GameWorld.arrDoor.length; i++) 
 			{
-				GameWorld.arrDoor[i].activeB = true;	
+				GameWorld.arrDoor[i].activeB = !GameWorld.arrDoor[j].activeB;	
 				GameWorld.arrDoor[i].reActive();		
 			}
 				
 			
 			for (var j:int = 0; j < GameWorld.arrButton.length; j++) 
 			{
-				GameWorld.arrButton[j].activeB = true;
+				GameWorld.arrButton[j].activeB = !GameWorld.arrButton[j].activeB;
 				GameWorld.arrButton[j].reActive();				
 			}	
+			trace("ON");
 			
 		}
 		public function offActive():void 
@@ -43,6 +43,7 @@ package com.alsial
 				//GameWorld.arrButton[j].reActive();				
 						
 			}
+			trace("OFF");
 		}
 		
 		

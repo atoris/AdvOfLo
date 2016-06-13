@@ -15,45 +15,39 @@ package com.alsial.Entity
 	 */
 	public class TriggerDoor extends Entity
 	{
-		public var activeB:Boolean;
+		public var activeB:Boolean=true;
 		private var _img:Image;
 		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, 32, 32);
 		private var _bool:Boolean;
 		
 		
 		
-		public function TriggerDoor(xPos:Number,yPos:Number,active:Boolean=true) 
+		public function TriggerDoor(xPos:Number,yPos:Number,b:Boolean) 
 		{
+			trace(b);
 			type = Opt.TRIGGERDOOR;
 			setHitbox(32, 32);
 			x = xPos;
 			y = yPos;
-			
-			sprSwordguy.add("y", [10], 20, true);
-			sprSwordguy.add("n", [11], 20, true);
-			graphic = sprSwordguy;
-			
 			//active = false;
-			
+			sprSwordguy.add("N", [10], 20, true);
+			sprSwordguy.add("Y", [11], 20, true);
+			graphic = sprSwordguy;
+			activeB = b;
 			if (activeB) 
 			{
-				sprSwordguy.play("y");
-				
-			}else {
-				sprSwordguy.play("n");
+				sprSwordguy.play("Y");
+			}else{
+				sprSwordguy.play("N");
 			}
 			
+			//sprSwordguy.play( (activeB)?"Y":"N");
 		}
 		
 		public function reActive():void 
 		{
 			
-			if (activeB) 
-			{
-				sprSwordguy.play("y");
-			}else {
-				sprSwordguy.play("n");
-			}			
+			sprSwordguy.play( (activeB)?"Y":"N");			
 			
 		}
 		

@@ -19,19 +19,14 @@ package com.alsial.Entity
 		public var _bool:Boolean;
 		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, 32, 32);
 		private var _trigger:TriggerClass;
-		public function TriggerButton(xPos:Number = 0, yPos:Number = 0, active:Boolean = true ) 
+		public function TriggerButton(xPos:Number, yPos:Number, b:Boolean) 
 		{
-			activeB = active;
-			sprSwordguy.add("y", [14], 20, true);
-			sprSwordguy.add("n", [15], 20, true);
+			sprSwordguy.add("Y", [14], 20, true);
+			sprSwordguy.add("N", [15], 20, true);
 			graphic = sprSwordguy;
-			if (activeB) 
-			{
-				sprSwordguy.play("y");
-			}else {
-				sprSwordguy.play("n");	
-			}
-			active = false;
+			activeB = b;
+			sprSwordguy.play((activeB)?"Y":"N");
+			
 			
 			type = Opt.TRIGGERBUTTON;
 			setHitbox(32, 32);
@@ -47,16 +42,15 @@ package com.alsial.Entity
 			super.update();
 			
 			var player:Player = collide(Opt.PLAYER, x, y) as Player;
-			var box:Box = collide(Opt.BOX, x, y) as Box;
+			//var box:Box = collide(Opt.BOX, x, y) as Box;
 			
 			
-			if (player || box) 
-			{			
-				_trigger.onActive();				
-			}else{
-				_trigger.offActive();				
+			if (activeB && player) 
+			{
+				//trace("xxx");
+				_trigger.onActive();
+				activeB = false;
 			}
-			
 		}
 		
 		public function reActive():void 
@@ -64,9 +58,9 @@ package com.alsial.Entity
 			
 			if (activeB) 
 			{
-				sprSwordguy.play("y");
+				sprSwordguy.play("Y");
 			}else {
-				sprSwordguy.play("n");
+				sprSwordguy.play("N");
 			}			
 			
 		}

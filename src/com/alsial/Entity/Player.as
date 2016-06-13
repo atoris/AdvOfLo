@@ -95,16 +95,16 @@ package com.alsial.Entity
 			if (_step.moveP) 
 			{
 				if (_kLeft){
-					_mLeft = (collide(Opt.WALL, x - 1, y) || (_tgdL != null && !_tgdL.activeB) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
+					_mLeft = (collide(Opt.WALL, x - 1, y) || (_tgdL != null && _tgdL.activeB) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
 				}				
 				if (_kRight){
-					_mRight = (collide(Opt.WALL, x + 1, y) || (_tgdR != null && !_tgdR.activeB) || (_boxR != null && !_boxR.moveRightB))?false:true;					
+					_mRight = (collide(Opt.WALL, x + 1, y) || (_tgdR != null && _tgdR.activeB) || (_boxR != null && !_boxR.moveRightB))?false:true;					
 				}				
 				if (_kDown){
-					_mDown = (collide(Opt.WALL, x, y + 1) || (_tgdD != null && !_tgdD.activeB) || (_boxD != null && !_boxD.moveDownB))?false:true;										
+					_mDown = (collide(Opt.WALL, x, y + 1) || (_tgdD != null && _tgdD.activeB) || (_boxD != null && !_boxD.moveDownB))?false:true;										
 				}
 				if (_kUp){
-					_mUp = (collide(Opt.WALL, x, y - 1) || (_tgdU != null && !_tgdU.activeB) || (_boxU != null && !_boxU.moveUpB))?false:true;						
+					_mUp = (collide(Opt.WALL, x, y - 1) || (_tgdU != null && _tgdU.activeB) || (_boxU != null && !_boxU.moveUpB))?false:true;						
 				}				
 			}
 		}

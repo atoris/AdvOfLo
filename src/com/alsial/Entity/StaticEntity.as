@@ -21,6 +21,10 @@ package com.alsial.Entity
 		protected var _moveUpB:Boolean;
 		protected var _moveDownB:Boolean;
 		
+		private var _tgdL:TriggerDoor;
+		private var _tgdR:TriggerDoor;
+		private var _tgdD:TriggerDoor;
+		private var _tgdU:TriggerDoor;
 		public function StaticEntity(xPos:Number=0,yPos:Number=0) 
 		{
 			//_pos = new Point(int(y/32),int(x/32));
@@ -31,10 +35,25 @@ package com.alsial.Entity
 		{
 			super.update();
 			
-			_moveLeftB = !collide(Opt.WALL, x - 1, y);
-			_moveRightB = !collide(Opt.WALL, x + 1, y);
-			_moveDownB = !collide(Opt.WALL, x, y + 1);
-			_moveUpB = !collide(Opt.WALL, x, y - 1);
+			
+			_tgdL = collide(Opt.TRIGGERDOOR, x - 1, y) as TriggerDoor;
+			_tgdR = collide(Opt.TRIGGERDOOR, x + 1, y) as TriggerDoor;
+			_tgdU = collide(Opt.TRIGGERDOOR, x, y - 1) as TriggerDoor;
+			_tgdD = collide(Opt.TRIGGERDOOR, x, y + 1) as TriggerDoor;	
+			
+			
+			var ml:Boolean = (_tgdL != null)// && _tgdL.activeB;
+			var mr:Boolean = (_tgdR != null)// && _tgdR.activeB;
+			var md:Boolean = (_tgdD != null)// && _tgdD.activeB;
+			var mu:Boolean = (_tgdU != null)// && _tgdU.activeB;
+			
+			
+			_moveLeftB = (!collide(Opt.WALL, x - 1, y) && !ml);
+			_moveRightB = (!collide(Opt.WALL, x + 1, y) && !mr);
+			_moveDownB = (!collide(Opt.WALL, x, y + 1) && !md);
+			_moveUpB = (!collide(Opt.WALL, x, y - 1) && !mu);
+			
+			trace(_moveLeftB,_moveRightB,_moveDownB,_moveUpB);
 		}
 		public function moveLeft():void {
 			if (_moveLeftB)

@@ -1,6 +1,7 @@
 package com.alsial 
 {
 	import com.alsial.Entity.Box;
+	import com.alsial.Entity.NPCEntity1;
 	import com.alsial.Entity.Player;
 	import com.alsial.Entity.Star;
 	import com.alsial.Entity.Thorns;
@@ -23,15 +24,15 @@ package com.alsial
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 			[1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 6, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 4, 0, 5, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 6, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 7, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -72,13 +73,25 @@ package com.alsial
 					}
 					if (ARR_LEVEL[i][j]==6) 
 					{
-						var trb:TriggerButton = new TriggerButton(j * 32, i * 32);
+						var trb:TriggerButton = new TriggerButton(j * 32, i * 32,true);
 						arrButton.push(trb);
 						add(trb);
 					}
 					if (ARR_LEVEL[i][j]==7) 
 					{
-						var trd:TriggerDoor = new TriggerDoor(j * 32, i * 32);
+						var trb:TriggerButton = new TriggerButton(j * 32, i * 32,false);
+						arrButton.push(trb);
+						add(trb);
+					}
+					if (ARR_LEVEL[i][j]==8) 
+					{
+						var trd:TriggerDoor = new TriggerDoor(j * 32, i * 32,true);
+						arrDoor.push(trd);
+						add(trd);
+					}
+					if (ARR_LEVEL[i][j]==9) 
+					{
+						trd = new TriggerDoor(j * 32, i * 32,false);
 						arrDoor.push(trd);
 						add(trd);
 					}
@@ -118,6 +131,10 @@ package com.alsial
 					{
 						add(new Player(j * 32, i * 32));
 					}
+					if (ARR_LEVEL[i][j]==10) 
+					{
+						//add(new NPCEntity1(j * 32, i * 32));
+					}
 					
 				}
 			}
@@ -129,7 +146,7 @@ package com.alsial
 			
 			if (Opt.numStar==0) 
 			{
-				trace("LEVEL COMPLETE");
+				//trace("LEVEL COMPLETE");
 			}
 		}
 		
