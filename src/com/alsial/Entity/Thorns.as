@@ -11,14 +11,14 @@ package com.alsial.Entity
 	public class Thorns extends Entity
 	{
 		
-		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, 32, 32);
+		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 		private var _activeB:Boolean = false;
 		private var _num:int = 0
 		private var _boolDead:Boolean = false;
 		public function Thorns(xPos:Number, yPos:Number, act:Boolean = false ) 
 		{
 			type = Opt.THORNS;
-			setHitbox(32, 32);
+			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;
 			y = yPos;
 			sprSwordguy.add("y", [12], 20, true);

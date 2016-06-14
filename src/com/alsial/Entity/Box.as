@@ -19,8 +19,9 @@ package com.alsial.Entity
 		public function Box(xPos:Number=0, yPos:Number=0) 
 		{
 			graphic = new Image(Res.BOX);
+			
 			type = Opt.BOX;
-			setHitbox(32, 32);
+			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;
 			y = yPos;	
 		}

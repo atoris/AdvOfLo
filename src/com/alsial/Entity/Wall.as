@@ -20,8 +20,8 @@ package com.alsial.Entity
 		public function Wall() 
 		{
 			var arrLevel:Array = GameWorld.ARR_LEVEL;
-			_tile = new Tilemap(FP.getBitmap(Res.WALL), arrLevel[0].length*32, arrLevel.length*32, 32, 32);
-			_grid = new Grid(arrLevel[0].length*32, arrLevel.length*32, 32, 32);
+			_tile = new Tilemap(FP.getBitmap(Res.WALL), arrLevel[0].length*Opt.SIZE_CAGE, arrLevel.length*Opt.SIZE_CAGE, Opt.SIZE_CAGE, Opt.SIZE_CAGE);
+			_grid = new Grid(arrLevel[0].length*Opt.SIZE_CAGE, arrLevel.length*Opt.SIZE_CAGE, Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			mask = _grid;
 			graphic = _tile;
 			//layer = 1;

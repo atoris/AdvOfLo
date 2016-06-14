@@ -30,8 +30,8 @@ package com.alsial.Entity
 		private var _collide:CollideEntity;
 		public function StaticEntity(xPos:Number=0,yPos:Number=0) 
 		{
-			_collide = new CollideEntity(this,[Opt.WALL,Opt.TRIGGERDOOR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.BOX]);
-			//_pos = new Point(int(y/32),int(x/32));
+			_collide = new CollideEntity(this,[Opt.WALL,Opt.TRIGGERDOOR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.BOX,Opt.PLAYER_SMALL]);
+			
 		}
 		
 		
@@ -40,10 +40,10 @@ package com.alsial.Entity
 			super.update();
 			
 			
-			_moveLeftB =  !_collide.getLeft();
-			_moveRightB =  !_collide.getRight();
-			_moveDownB =  !_collide.getDown();
-			_moveUpB =  !_collide.getUp();
+			_moveLeftB =  !_collide.getLeft()// && !collide(Opt.PLAYER_SMALL,x-Opt.SIZE_CAGE/2+1,y);
+			_moveRightB =  !_collide.getRight()//	&& !collide(Opt.PLAYER_SMALL,x+Opt.SIZE_CAGE/2+1,y);
+			_moveDownB =  !_collide.getDown()//	&& !collide(Opt.PLAYER_SMALL,x,y+Opt.SIZE_CAGE/2+1);
+			_moveUpB =  !_collide.getUp()//	&& !collide(Opt.PLAYER_SMALL,x,y-Opt.SIZE_CAGE/2+1);
 			
 			//trace(_collide.getLeft(),_collide.type);
 		}

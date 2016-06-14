@@ -17,7 +17,7 @@ package com.alsial.Entity
 		private var _img:Image;
 		public var activeB:Boolean;
 		public var _bool:Boolean;
-		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, 32, 32);
+		private var sprSwordguy:Spritemap = new Spritemap(Res.SET, Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 		private var _trigger:TriggerClass;
 		public function TriggerButton(xPos:Number, yPos:Number, b:Boolean) 
 		{
@@ -29,7 +29,7 @@ package com.alsial.Entity
 			
 			
 			type = Opt.TRIGGERBUTTON;
-			setHitbox(32, 32);
+			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;
 			y = yPos;
 			_trigger = new TriggerClass();
@@ -42,12 +42,9 @@ package com.alsial.Entity
 			super.update();
 			
 			var player:Player = collide(Opt.PLAYER, x, y) as Player;
-			//var box:Box = collide(Opt.BOX, x, y) as Box;
-			
 			
 			if (activeB && player) 
 			{
-				//trace("xxx");
 				_trigger.onActive();
 				activeB = false;
 			}
@@ -55,14 +52,7 @@ package com.alsial.Entity
 		
 		public function reActive():void 
 		{
-			
-			if (activeB) 
-			{
-				sprSwordguy.play("Y");
-			}else {
-				sprSwordguy.play("N");
-			}			
-			
+			sprSwordguy.play( (activeB)?"Y":"N");				
 		}
 		
 	}

@@ -16,7 +16,7 @@ package com.alsial.Entity
 		{
 			graphic = new Image(Res.STAR);
 			type = Opt.STAR;
-			setHitbox(32, 32);
+			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;
 			y = yPos;
 			

@@ -1,5 +1,6 @@
 package com.alsial 
 {
+	import com.alsial.Entity.Box;
 	import net.flashpunk.Entity;
 	/**
 	 * ...
@@ -10,13 +11,15 @@ package com.alsial
 		private var _type:String;
 		private var ent:Entity;
 		private var arr:Array;
+		private var _entity:Entity;
+		private var _pos:String;
 		public function CollideEntity(ent:Entity,arr:Array) 
 		{
 			this.ent = ent;
 			this.arr = arr;
 		}
 		
-		public function getLeft():Boolean 
+		public function getLeft(dist:int=1):Entity 
 		{
 			var bool:Boolean = false;
 			
@@ -25,82 +28,107 @@ package com.alsial
 			
 			for (var i:int = 0; i < arr.length; i++) 
 			{
-				if (ent.collide(arr[i], ent.x - 1, ent.y)) 
+				_entity = ent.collide(arr[i], ent.x - dist, ent.y);
+				if (_entity) 
 				{
 					_type = arr[i];
 					bool = true;
 					break;
 				}
 			}
-			return bool;
+			_pos = "LEFT";
+			//trace(entity is Box);
+			return _entity;
 		}
 		
-		public function getRight():Boolean 
+		public function getRight(dist:int=1):Entity 
 		{
 			var bool:Boolean = false;
 			_type = "null";
+			
 			for (var i:int = 0; i < arr.length; i++) 
 			{
-				if (ent.collide(arr[i], ent.x + 1, ent.y)) 
+				_entity = ent.collide(arr[i], ent.x + dist, ent.y);
+				if (_entity) 
 				{
+					
 					_type = arr[i];
 					bool = true;
 					break;
 				}
 			}
-			return bool;
+			_pos = "RIGHT";
+			return _entity;
 		}
 		
-		public function getDown():Boolean 
+		public function getDown(dist:int=1):Entity 
 		{
 			var bool:Boolean = false;
 			_type = "null";
 			for (var i:int = 0; i < arr.length; i++) 
 			{
-				if (ent.collide(arr[i], ent.x, ent.y+1)) 
+				_entity = ent.collide(arr[i], ent.x, ent.y + dist);
+				if (_entity) 
 				{
 					_type = arr[i];
 					bool = true;
 					break;
 				}
 			}
-			return bool;
+			_pos = "DOWN";
+			return _entity;
 		}
-		public function getUp():Boolean 
+		public function getUp(dist:int=1):Entity 
 		{
+			
 			var bool:Boolean = false;
 			_type = "null";
 			for (var i:int = 0; i < arr.length; i++) 
 			{
-				if (ent.collide(arr[i], ent.x, ent.y-1)) 
+				_entity = ent.collide(arr[i], ent.x, ent.y - dist);
+				if (_entity) 
 				{
 					_type = arr[i];
 					bool = true;
 					break;
 				}
 			}
-			return bool;
+			_pos = "UP";
+			return _entity;
 		}
 		
-		public function getPush():Boolean 
+		public function getPush():Entity 
 		{
+			
 			var bool:Boolean = false;
 			_type = "null";
 			for (var i:int = 0; i < arr.length; i++) 
 			{
-				if (ent.collide(arr[i], ent.x, ent.y)) 
+				_entity = ent.collide(arr[i], ent.x, ent.y);
+				if (_entity) 
 				{
 					_type = arr[i];
 					bool = true;
 					break;
 				}
 			}
-			return bool;
+			_pos = "PUSH";
+			return _entity;
 		}
 		
 		public function get type():String 
 		{
 			return _type;
+		}
+		
+		public function get entity():Entity 
+		{
+			return _entity;
+		}
+		
+		public function get pos():String 
+		{
+			return _pos;
 		}
 		
 	}

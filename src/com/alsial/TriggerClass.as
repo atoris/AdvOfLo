@@ -14,39 +14,31 @@ package com.alsial
 		}
 		
 		public function onActive():void 
-		{			
+		{	
+			var bool:Boolean;
 			for (var i:int = 0; i < GameWorld.arrDoor.length; i++) 
 			{
-				GameWorld.arrDoor[i].activeB = !GameWorld.arrDoor[j].activeB;	
-				GameWorld.arrDoor[i].reActive();		
+				bool = GameWorld.arrDoor[i].bool;
+				if (!bool) 
+				{
+					GameWorld.arrDoor[i].activeB = !GameWorld.arrDoor[j].activeB;	
+					GameWorld.arrDoor[i].reActive();	
+				}else{
+					break;
+				}
+				
 			}
 				
 			
 			for (var j:int = 0; j < GameWorld.arrButton.length; j++) 
 			{
-				GameWorld.arrButton[j].activeB = !GameWorld.arrButton[j].activeB;
-				GameWorld.arrButton[j].reActive();				
-			}	
-			trace("ON");
-			
-		}
-		public function offActive():void 
-		{
-			for (var i:int = 0; i < GameWorld.arrDoor.length; i++) 
-			{
-				GameWorld.arrDoor[i].activeB = false;	
-				GameWorld.arrDoor[i].reActive();			
+				if (!bool) 
+				{
+					GameWorld.arrButton[j].activeB = !GameWorld.arrButton[j].activeB;
+					GameWorld.arrButton[j].reActive();
+				}								
 			}
-			for (var j:int = 0; j < GameWorld.arrButton.length; j++) 
-			{
-				//GameWorld.arrButton[j].activeB = false;
-				//GameWorld.arrButton[j].reActive();				
-						
-			}
-			trace("OFF");
+			trace(bool);
 		}
-		
-		
 	}
-
 }

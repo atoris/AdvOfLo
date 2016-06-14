@@ -1,5 +1,6 @@
 package com.alsial.Entity 
 {
+	import com.alsial.CollideEntity;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
@@ -32,6 +33,8 @@ package com.alsial.Entity
 		private var _boxU:Box;
 		private var _boxD:Box;
 		
+		private var _collide:CollideEntity;
+		
 		private var _tgdL:TriggerDoor;
 		private var _tgdR:TriggerDoor;
 		private var _tgdD:TriggerDoor;
@@ -40,20 +43,40 @@ package com.alsial.Entity
 		
 		private var _step:StepGame;
 		
+		private var _playerB:Boolean=true;
 		
-		
-		public function Player(x:Number=0, y:Number=0) 
+		public function Player(xPos:Number = 0, yPos:Number = 0, t:String = Opt.PLAYER) 
 		{
-			super(x, y);			
-			graphic = new Image(Res.PLAYER);
-			setHitbox(32, 32);
-			type = Opt.PLAYER;		
-			_step = new StepGame(32,4);
+			super(xPos,yPos);
+			this.type = t;	
+			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.STAR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.TRIGGERDOOR]);
+			
+			
+			
+			
+			
+			if (type==Opt.PLAYER_SMALL) 
+			{
+				graphic = new Image(Res.ENEMY_EVIL);
+				
+				_playerB = false;	
+				
+				
+			}else{
+				graphic = new Image(Res.PLAYER);
+				
+				_playerB = true;
+				
+			}
+			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
+			_step = new StepGame(Opt.SIZE_CAGE,4);
 			Input.define("Left", Key.A, Key.LEFT);
 			Input.define("Right", Key.D, Key.RIGHT);
 			Input.define("Down", Key.S, Key.DOWN);
-			Input.define("Up", Key.W, Key.UP);			
+			Input.define("Up", Key.W, Key.UP);		
+			
 		}
+		
 		
 		override public function update():void 
 		{
@@ -63,6 +86,10 @@ package com.alsial.Entity
 			move();
 		}
 		
+		public function resize():void{
+			
+			
+		}
 		
 		private function stepMoveP():void 
 		{
@@ -97,17 +124,39 @@ package com.alsial.Entity
 			
 			if (_step.moveP) 
 			{
-				if (_kLeft){
-					_mLeft = (collide(Opt.WALL, x - 1, y) || (_tgdL != null && _tgdL.activeB) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
+				if (_kLeft){		
+					if (type!=Opt.PLAYER_SMALL) 
+					{
+						_mLeft = (collide(Opt.WALL, x - 1, y) || (_tgdL != null && _tgdL.activeB) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
+					}else{
+						_mLeft = (collide(Opt.WALL, x - 1, y)|| (_tgdL != null && _tgdL.activeB) || collide(Opt.BOX,x-1,y)) ?false:true;					
+					}
+					
 				}				
 				if (_kRight){
-					_mRight = (collide(Opt.WALL, x + 1, y) || (_tgdR != null && _tgdR.activeB) || (_boxR != null && !_boxR.moveRightB))?false:true;					
-				}				
-				if (_kDown){
-					_mDown = (collide(Opt.WALL, x, y + 1) || (_tgdD != null && _tgdD.activeB) || (_boxD != null && !_boxD.moveDownB))?false:true;										
+					if (type!=Opt.PLAYER_SMALL) 
+					{					
+						_mRight = (collide(Opt.WALL, x + 1, y) || (_tgdR != null && _tgdR.activeB) || (_boxR != null && !_boxR.moveRightB))?false:true;					
+					}else{
+						_mRight = (collide(Opt.WALL, x + 1, y)|| (_tgdR != null && _tgdR.activeB)  || collide(Opt.BOX,x+1,y))?false:true;					
+					}
 				}
+				if (_kDown){
+					if (type!=Opt.PLAYER_SMALL) 
+					{
+						_mDown = (collide(Opt.WALL, x, y + 1) || (_tgdD != null && _tgdD.activeB) || (_boxD != null && !_boxD.moveDownB))?false:true;	
+					}else{
+						_mDown = (collide(Opt.WALL, x, y + 1)|| (_tgdD != null && _tgdD.activeB) || collide(Opt.BOX, x, y + 1))?false:true;	
+					}
+				}	
 				if (_kUp){
-					_mUp = (collide(Opt.WALL, x, y - 1) || (_tgdU != null && _tgdU.activeB) || (_boxU != null && !_boxU.moveUpB))?false:true;						
+					if (type!=Opt.PLAYER_SMALL) 
+					{
+						_mUp = (collide(Opt.WALL, x, y - 1) || (_tgdU != null && _tgdU.activeB) || (_boxU != null && !_boxU.moveUpB))?false:true;		
+					}else{
+						_mUp = (collide(Opt.WALL, x, y - 1)|| (_tgdU != null && _tgdU.activeB)  || collide(Opt.BOX, x, y - 1))?false:true;		
+					}
+					
 				}				
 			}
 		}
@@ -115,64 +164,71 @@ package com.alsial.Entity
 		
 		private function move():void 
 		{
-			if (_mLeft) 
-			{
-				if (_step.move()) 
-				{						
-					if (_boxL) 
-					{						
-						_boxL.moveLeft();
-					}
-					x -= Opt.SPEED;
-				}else {					
-					_mLeft = false;
-					_step.reMove();					
-				}
-			}
-			if (_mRight) 
-			{
-				if (_step.move()) 
+			
+			//trace(type,width);
+			if (_playerB) 
+			{							
+				if (_mLeft) 
 				{
+					if (_step.move()) 
+					{			
 						
-					if (_boxR) 
-					{						
-						_boxR.moveRight();
+						if (_boxL) 
+						{						
+							_boxL.moveLeft();
+						}
+						x -= Opt.SPEED;
+					}else {					
+						_mLeft = false;
+						_step.reMove();					
 					}
-					x += Opt.SPEED;
 				}
-				else {						
-					_mRight = false;
-					_step.reMove();					
-				}
-			}
-			if (_mDown) 
-			{
-				if (_step.move() ) 
+				if (_mRight) 
 				{
-					if (_boxD) 
-					{						
-						_boxD.moveDown();
+					if (_step.move()) 
+					{
+							
+						if (_boxR) 
+						{						
+							_boxR.moveRight();
+						}
+						x += Opt.SPEED;
 					}
-					y += Opt.SPEED;
-				}else {						
-					_mDown = false;
-					_step.reMove();					
+					else {						
+						_mRight = false;
+						_step.reMove();					
+					}
 				}
-			}
-			if (_mUp ) 
-			{
-				if (_step.move()  ) 
+				if (_mDown) 
 				{
-					
-					if (_boxU) 
-					{						
-						_boxU.moveUp();
+					if (_step.move() ) 
+					{
+						if (_boxD) 
+						{						
+							_boxD.moveDown();
+						}
+						y += Opt.SPEED;
+					}else {						
+						_mDown = false;
+						_step.reMove();					
 					}
-					y -= Opt.SPEED;
-				}else {						
-					_mUp = false;
-					_step.reMove();					
 				}
+				if (_mUp ) 
+				{
+					if (_step.move()  ) 
+					{
+						
+						if (_boxU) 
+						{						
+							_boxU.moveUp();
+						}
+						y -= Opt.SPEED;
+					}else {						
+						_mUp = false;
+						_step.reMove();					
+					}
+				}
+			
 			}
 		}
 		
@@ -214,6 +270,56 @@ package com.alsial.Entity
 			}else {
 				_kUp = false;
 			}
+		}
+		
+		public function get playerB():Boolean 
+		{
+			return _playerB;
+		}
+		
+		public function set playerB(value:Boolean):void 
+		{
+			_playerB = value;
+		}
+		
+		public function get mLeft():Boolean 
+		{
+			return _mLeft;
+		}
+		
+		public function set mLeft(value:Boolean):void 
+		{
+			_mLeft = value;
+		}
+		
+		public function get mRight():Boolean 
+		{
+			return _mRight;
+		}
+		
+		public function set mRight(value:Boolean):void 
+		{
+			_mRight = value;
+		}
+		
+		public function get mDown():Boolean 
+		{
+			return _mDown;
+		}
+		
+		public function set mDown(value:Boolean):void 
+		{
+			_mDown = value;
+		}
+		
+		public function get mUp():Boolean 
+		{
+			return _mUp;
+		}
+		
+		public function set mUp(value:Boolean):void 
+		{
+			_mUp = value;
 		}
 	}
 

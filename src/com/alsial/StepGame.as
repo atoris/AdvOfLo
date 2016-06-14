@@ -6,11 +6,11 @@ package com.alsial
 	 */
 	public class StepGame 
 	{
-		private var _dist:int = 32;
+		private var _dist:int = Opt.SIZE_CAGE;
 		private var _minDist:int = 0;
 		private var _step:int = 4;
 		private var _moveP:Boolean=true;
-		public function StepGame(dist:int=32,step:int=4) 
+		public function StepGame(dist:int=Opt.SIZE_CAGE,step:int=4) 
 		{
 			_dist = dist;
 			_step = step;

@@ -8,7 +8,10 @@ package com.alsial
 	import com.alsial.Entity.TriggerButton;
 	import com.alsial.Entity.TriggerDoor;
 	import com.alsial.Entity.Wall;
+	import net.flashpunk.utils.Input;
+	import net.flashpunk.utils.Key;
 	import net.flashpunk.World;
+	import net.flashpunk.FP;
 	
 	/**
 	 * ...
@@ -20,6 +23,7 @@ package com.alsial
 		
 		public static var arrDoor:Array;
 		public static var arrButton:Array;
+		public static var arrPlayer:Array;
 		public static var ARR_LEVEL:Array = new Array(	
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 			[1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -31,7 +35,7 @@ package com.alsial
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 7, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 5, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -40,7 +44,8 @@ package com.alsial
 		public function GameWorld() 
 		{
 			super();		
-			
+			FP.console.enable();
+			FP.console.toggleKey = Key.TAB;
 			createLevel();
 			
 		}
@@ -66,29 +71,29 @@ package com.alsial
 					
 					if (ARR_LEVEL[i][j]==5) 
 					{						
-						add(new Thorns(j * 32, i * 32));
+						add(new Thorns(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE));
 					}
 					if (ARR_LEVEL[i][j]==6) 
 					{
-						var trb:TriggerButton = new TriggerButton(j * 32, i * 32,true);
+						var trb:TriggerButton = new TriggerButton(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,true);
 						arrButton.push(trb);
 						add(trb);
 					}
 					if (ARR_LEVEL[i][j]==7) 
 					{
-						var trb:TriggerButton = new TriggerButton(j * 32, i * 32,false);
+						trb = new TriggerButton(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,false);
 						arrButton.push(trb);
 						add(trb);
 					}
 					if (ARR_LEVEL[i][j]==8) 
 					{
-						var trd:TriggerDoor = new TriggerDoor(j * 32, i * 32,true);
+						var trd:TriggerDoor = new TriggerDoor(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,true);
 						arrDoor.push(trd);
 						add(trd);
 					}
 					if (ARR_LEVEL[i][j]==9) 
 					{
-						trd = new TriggerDoor(j * 32, i * 32,false);
+						trd = new TriggerDoor(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,false);
 						arrDoor.push(trd);
 						add(trd);
 					}
@@ -105,12 +110,12 @@ package com.alsial
 					
 					if (ARR_LEVEL[i][j]==3) 
 					{
-						add(new Box(j * 32, i * 32));
+						add(new Box(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE));
 					}
 					if (ARR_LEVEL[i][j]==4) 
 					{
 						Opt.numStar++;
-						add(new Star(j * 32, i * 32));
+						add(new Star(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE));
 					}
 					
 					
@@ -120,17 +125,23 @@ package com.alsial
 		
 		private function addDynamicEntity():void 
 		{
+			arrPlayer = new Array();
 			for (var i:int = 0; i < ARR_LEVEL.length; i++) 
 			{
 				for (var j:int = 0; j < ARR_LEVEL[i].length; j++) 
 				{
 					if (ARR_LEVEL[i][j]==2) 
 					{
-						add(new Player(j * 32, i * 32));
+						var plr:Player = new Player(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,Opt.PLAYER_SMALL);
+						arrPlayer.push(plr);
+						add(plr);
 					}
 					if (ARR_LEVEL[i][j]==10) 
 					{
-						//add(new NPCEntity1(j * 32, i * 32));
+						plr = new Player(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE);
+						arrPlayer.push(plr);
+						add(plr);
+						//add(new NPCEntity1(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE));
 					}
 					
 				}
@@ -144,6 +155,24 @@ package com.alsial
 			if (Opt.numStar==0) 
 			{
 				//trace("LEVEL COMPLETE");
+			}
+			
+			if (Input.pressed(Key.X)) 
+			{
+				for (var i:int = 0; i < arrPlayer.length; i++) 
+				{
+					var plr:Player = arrPlayer[i];
+					
+					plr.playerB = !arrPlayer[i].playerB;
+					plr.mLeft = false;
+					plr.mRight = false;
+					plr.mDown = false;
+					plr.mUp = false;
+					//plr.resize();
+					
+				}
+				trace("------------------");
+				//trace("xxx");
 			}
 		}
 		

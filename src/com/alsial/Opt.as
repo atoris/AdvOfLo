@@ -12,6 +12,7 @@ package com.alsial
 		//public static const NULL:uint = 0;
 		public static const WALL:String = "WALL";
 		public static const PLAYER:String = "PLAYER";
+		public static const PLAYER_SMALL:String = "PLAYER_SMALL";
 		public static const GROUND:String = "GROUND";
 		public static const BOX:String = "BOX";
 		public static const STAR:String = "STAR";
@@ -50,7 +51,7 @@ package com.alsial
 		public static var numStar:int = 0;
 		
 		public static var numLevel:int = 0;
-		
+		public static const SIZE_CAGE:int = 32;
 		//public static const ARR_SOLID_STATIC:Array = new Array(WALL,GROUND,STAR);
 		
 		public function Opt() 

@@ -24,7 +24,7 @@ package com.alsial.Entity
 		{
 			super(xPos, yPos);			
 			graphic = new Image(Res.ENEMY_EVIL);
-			setHitbox(32, 32);
+			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			type = Opt.ENEMY_EVIL;	
 			_path = str;
 			_step = new StepGame();
