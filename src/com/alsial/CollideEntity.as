@@ -116,6 +116,23 @@ package com.alsial
 			return _entity;
 		}
 		
+		public function getOneLeft(e1:Entity,cl:String):Entity{
+			return e1.collide(cl, e1.x-1, e1.y);
+		}
+		public function getOneRight(e1:Entity,cl:String):Entity{
+			return e1.collide(cl, e1.x+1, e1.y);
+		}
+		public function getOneDown(e1:Entity,cl:String):Entity{
+			return e1.collide(cl, e1.x, e1.y+1);
+		}
+		public function getOneUp(e1:Entity,cl:String):Entity{
+			return e1.collide(cl, e1.x, e1.y-1);
+		}
+		public function getOnePush(e1:Entity,cl:String):Entity{
+			return e1.collide(cl, e1.x, e1.y);
+		}
+		
+		
 		public function get type():String 
 		{
 			return _type;

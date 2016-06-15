@@ -1,6 +1,8 @@
 package com.alsial 
 {
 	import com.alsial.Entity.Box;
+	import com.alsial.Entity.Elevator;
+	import com.alsial.Entity.LevelPoint;
 	import com.alsial.Entity.NPCEntity1;
 	import com.alsial.Entity.Player;
 	import com.alsial.Entity.Star;
@@ -24,18 +26,21 @@ package com.alsial
 		public static var arrDoor:Array;
 		public static var arrButton:Array;
 		public static var arrPlayer:Array;
+		private var _trigger:TriggerClass;
+		
+		private var _arrPoint:Array;
 		public static var ARR_LEVEL:Array = new Array(	
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-			[1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 2, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 6, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 7, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-			[1, 0, 0, 0, 0, 5, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 22, 22, 22, 0, 0, 0, 1],
+			[1, 0, 0, 0, 6, 0, 0, 9, 0, 0, 0, 23, 23, 23, 23, 23, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 25, 24, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 24, 0, 1],
+			[1, 0, 0, 0, 7, 0, 0, 8, 8, 0, 0, 0, 20, 0, 0, 0, 25, 24, 0, 1],
+			[1, 0, 0, 0, 0, 4, 0, 8, 8, 0, 0, 0, 0, 0, 0, 0, 25, 24, 0, 1],
+			[1, 0, 0, 0, 0, 5, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 25, 24, 0, 1],
 			[1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -56,14 +61,16 @@ package com.alsial
 			
 			addTriggerEntity();
 			addStaticEntity();
-			addDynamicEntity();			
+			addDynamicEntity();	
+			_trigger = new TriggerClass();
 		}
 		
 		private function addTriggerEntity():void 
 		{
 			
-			arrDoor = new Array();
-			arrButton = new Array();
+			//arrDoor = new Array();
+			//arrButton = new Array();
+			_arrPoint = new Array();
 			for (var i:int = 0; i < ARR_LEVEL.length; i++) 
 			{
 				for (var j:int = 0; j < ARR_LEVEL[i].length; j++) 
@@ -76,26 +83,51 @@ package com.alsial
 					if (ARR_LEVEL[i][j]==6) 
 					{
 						var trb:TriggerButton = new TriggerButton(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,true);
-						arrButton.push(trb);
+						//arrButton.push(trb);
 						add(trb);
 					}
 					if (ARR_LEVEL[i][j]==7) 
 					{
 						trb = new TriggerButton(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,false);
-						arrButton.push(trb);
+						//arrButton.push(trb);
 						add(trb);
 					}
 					if (ARR_LEVEL[i][j]==8) 
 					{
 						var trd:TriggerDoor = new TriggerDoor(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,true);
-						arrDoor.push(trd);
+						//arrDoor.push(trd);
 						add(trd);
 					}
 					if (ARR_LEVEL[i][j]==9) 
 					{
 						trd = new TriggerDoor(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,false);
-						arrDoor.push(trd);
+						//arrDoor.push(trd);
 						add(trd);
+					}
+					if (ARR_LEVEL[i][j]==20) 
+					{
+						//trd = new TriggerDoor(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,false);
+						//arrDoor.push(trd);
+						var lp:LevelPoint = new LevelPoint(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE);
+						_arrPoint.push(lp);
+						add(lp);
+					}
+					
+					if (ARR_LEVEL[i][j]==22) 
+					{
+						add(new Elevator(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,"L"));
+					}
+					if (ARR_LEVEL[i][j]==23) 
+					{
+						add(new Elevator(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,"R"));
+					}
+					if (ARR_LEVEL[i][j]==24) 
+					{
+						add(new Elevator(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,"D"));
+					}
+					if (ARR_LEVEL[i][j]==25) 
+					{
+						add(new Elevator(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,"U"));
 					}
 				}
 			}
@@ -153,8 +185,14 @@ package com.alsial
 			super.update();
 			
 			if (Opt.numStar==0) 
-			{
-				//trace("LEVEL COMPLETE");
+			{			
+				Opt.ARR_LEVEL_POINTS[0] = _arrPoint[0].activeB;	
+				Opt.ARR_LEVEL_POINTS[1] = _arrPoint[1].activeB;
+				if ((Opt.ARR_LEVEL_POINTS[1]==Opt.ARR_LEVEL_POINTS[0])==true) 
+				{
+					trace("LEVEL_COMPLETE");
+				}
+				//trace(Opt.ARR_LEVEL_POINTS[0],Opt.ARR_LEVEL_POINTS[1]);
 			}
 			
 			if (Input.pressed(Key.X)) 

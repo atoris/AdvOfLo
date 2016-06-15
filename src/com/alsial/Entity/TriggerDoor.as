@@ -33,22 +33,13 @@ package com.alsial.Entity
 			activeB = b;
 			_collide = new CollideEntity(this, [Opt.PLAYER_SMALL, Opt.BOX]);
 			sprSwordguy.play( (activeB)?"Y":"N");	
-			//sprSwordguy.play( (activeB)?"Y":"N");
+			active = false;
 		}
 		
-		
-		
-		override public function update():void 
-		{
-			super.update();	
-			
-			_bool = _collide.getPush()?true:false;
-			trace(_bool);
-		}
 		
 		public function reActive():void 
 		{
-			
+			activeB = !activeB;
 			sprSwordguy.play( (activeB)?"Y":"N");			
 			
 		}

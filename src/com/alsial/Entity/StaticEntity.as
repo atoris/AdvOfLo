@@ -30,7 +30,7 @@ package com.alsial.Entity
 		private var _collide:CollideEntity;
 		public function StaticEntity(xPos:Number=0,yPos:Number=0) 
 		{
-			_collide = new CollideEntity(this,[Opt.WALL,Opt.TRIGGERDOOR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.BOX,Opt.PLAYER_SMALL]);
+			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.PLAYER_SMALL,Opt.TRIGGERDOOR,Opt.TRIGGERBUTTON]);
 			
 		}
 		
@@ -38,12 +38,28 @@ package com.alsial.Entity
 		override public function update():void 
 		{
 			super.update();
+			//var tgdL:TriggerDoor = collide(Opt.TRIGGERDOOR, x - 1, y) as TriggerDoor;
+			//var tgdR:TriggerDoor = collide(Opt.TRIGGERDOOR, x + 1, y) as TriggerDoor;
+			//var tgdD:TriggerDoor = collide(Opt.TRIGGERDOOR, x, y + 1) as TriggerDoor;
+			//var tgdU:TriggerDoor = collide(Opt.TRIGGERDOOR, x, y - 1) as TriggerDoor;
 			
 			
-			_moveLeftB =  !_collide.getLeft()// && !collide(Opt.PLAYER_SMALL,x-Opt.SIZE_CAGE/2+1,y);
-			_moveRightB =  !_collide.getRight()//	&& !collide(Opt.PLAYER_SMALL,x+Opt.SIZE_CAGE/2+1,y);
-			_moveDownB =  !_collide.getDown()//	&& !collide(Opt.PLAYER_SMALL,x,y+Opt.SIZE_CAGE/2+1);
-			_moveUpB =  !_collide.getUp()//	&& !collide(Opt.PLAYER_SMALL,x,y-Opt.SIZE_CAGE/2+1);
+			var thr:Thorns = collide(Opt.THORNS, x, y) as Thorns;
+			if (thr) 
+			{
+				thr.reActive();
+				if (thr.boolDead) 
+				{
+					FP.world.remove(this);
+				}
+			}
+			
+			//trace(tgdL,tgdR,tgdU,tgdD);
+			
+			_moveLeftB =	!_collide.getLeft()	//	&&!(tgdL !=null && tgdL.activeB);// && !collide(Opt.PLAYER_SMALL,x-Opt.SIZE_CAGE/2+1,y);
+			_moveRightB =	!_collide.getRight()//	&&!(tgdR != null && tgdR.activeB)//	&& !collide(Opt.PLAYER_SMALL,x+Opt.SIZE_CAGE/2+1,y);
+			_moveDownB =	!_collide.getDown()//	&&!(tgdD != null && tgdD.activeB)//	&& !collide(Opt.PLAYER_SMALL,x,y+Opt.SIZE_CAGE/2+1);
+			_moveUpB =	!_collide.getUp()//		&&!(tgdU != null && tgdU.activeB)//	&& !collide(Opt.PLAYER_SMALL,x,y-Opt.SIZE_CAGE/2+1);
 			
 			//trace(_collide.getLeft(),_collide.type);
 		}

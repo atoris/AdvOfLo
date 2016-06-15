@@ -42,19 +42,14 @@ package com.alsial.Entity
 		
 		
 		private var _step:StepGame;
-		
+		private var _stepMove:Boolean;
 		private var _playerB:Boolean=true;
 		
 		public function Player(xPos:Number = 0, yPos:Number = 0, t:String = Opt.PLAYER) 
 		{
 			super(xPos,yPos);
 			this.type = t;	
-			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.STAR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.TRIGGERDOOR]);
-			
-			
-			
-			
-			
+			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.STAR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.TRIGGERDOOR]);			
 			if (type==Opt.PLAYER_SMALL) 
 			{
 				graphic = new Image(Res.ENEMY_EVIL);
@@ -93,7 +88,7 @@ package com.alsial.Entity
 		
 		private function stepMoveP():void 
 		{
-			
+			_step.dist = Opt.SIZE_CAGE;
 			_boxL = collide(Opt.BOX, x - 1, y) as Box;
 			_boxR = collide(Opt.BOX, x + 1, y) as Box;
 			_boxU = collide(Opt.BOX, x, y - 1) as Box;
@@ -104,8 +99,11 @@ package com.alsial.Entity
 			_tgdU = collide(Opt.TRIGGERDOOR, x, y - 1) as TriggerDoor;
 			_tgdD = collide(Opt.TRIGGERDOOR, x, y + 1) as TriggerDoor;	
 			
-			
-			//trace(_tgdL,_tgdR,_tgdU,_tgdD);
+			//var elvR:Elevator = collide(Opt.EL_RIGHT, x, y) as Elevator;
+			if (collide(Opt.EL_RIGHT, x, y)||collide(Opt.EL_LEFT, x, y)||collide(Opt.EL_DOWN, x, y)||collide(Opt.EL_UP, x, y)) 
+			{
+				_step.dist = 99999;				
+			}
 			
 			var star:Star = collide(Opt.STAR, x, y) as Star;
 			if (star) 
@@ -122,50 +120,106 @@ package com.alsial.Entity
 				}
 			}
 			
+			
+			if (collide(Opt.TRIGGERDOOR,x,y)) 
+			{
+				_step.dist = Opt.SIZE_CAGE * 2;	
+				
+			}
+			
+			
 			if (_step.moveP) 
 			{
 				if (_kLeft){		
 					if (type!=Opt.PLAYER_SMALL) 
 					{
-						_mLeft = (collide(Opt.WALL, x - 1, y) || (_tgdL != null && _tgdL.activeB) || (_boxL != null && !_boxL.moveLeftB))?false:true;					
+						_mLeft = (	collide(Opt.WALL, x - 1, y) ||
+									collide(Opt.EL_RIGHT, x - 1, y) || 
+									collide(Opt.EL_DOWN, x - 1, y) ||
+									collide(Opt.EL_UP, x - 1, y) ||
+									(_tgdL != null && _tgdL.activeB) || 
+									(_boxL != null && !_boxL.moveLeftB)
+								)?false:true;					
 					}else{
-						_mLeft = (collide(Opt.WALL, x - 1, y)|| (_tgdL != null && _tgdL.activeB) || collide(Opt.BOX,x-1,y)) ?false:true;					
+						_mLeft = (	collide(Opt.WALL, x - 1, y) ||
+									collide(Opt.EL_RIGHT, x - 1, y) || 
+									collide(Opt.EL_DOWN, x - 1, y) ||
+									collide(Opt.EL_UP, x - 1, y) ||
+									(_tgdL != null && _tgdL.activeB) || 
+									collide(Opt.BOX, x - 1, y)
+								) ?false:true;					
 					}
 					
-				}				
+				}						
 				if (_kRight){
 					if (type!=Opt.PLAYER_SMALL) 
 					{					
-						_mRight = (collide(Opt.WALL, x + 1, y) || (_tgdR != null && _tgdR.activeB) || (_boxR != null && !_boxR.moveRightB))?false:true;					
+						_mRight = (	collide(Opt.WALL, x + 1, y) ||
+									collide(Opt.EL_LEFT, x + 1, y) || 
+									collide(Opt.EL_DOWN, x+1, y) ||
+									collide(Opt.EL_UP, x+1, y) ||
+									(_tgdR != null && _tgdR.activeB) ||
+									(_boxR != null && !_boxR.moveRightB)
+								)?false:true;					
 					}else{
-						_mRight = (collide(Opt.WALL, x + 1, y)|| (_tgdR != null && _tgdR.activeB)  || collide(Opt.BOX,x+1,y))?false:true;					
+						_mRight = (	collide(Opt.WALL, x + 1, y) ||
+									collide(Opt.EL_LEFT, x + 1, y) || 
+									collide(Opt.EL_DOWN, x+1, y) ||
+									collide(Opt.EL_UP, x+1, y) ||
+									(_tgdR != null && _tgdR.activeB) || 
+									collide(Opt.BOX, x + 1, y)
+								)?false:true;					
 					}
 				}
 				if (_kDown){
 					if (type!=Opt.PLAYER_SMALL) 
 					{
-						_mDown = (collide(Opt.WALL, x, y + 1) || (_tgdD != null && _tgdD.activeB) || (_boxD != null && !_boxD.moveDownB))?false:true;	
+						_mDown = (	collide(Opt.WALL, x, y + 1) ||
+									collide(Opt.EL_LEFT, x, y+1) || 
+									collide(Opt.EL_RIGHT, x, y+1) ||
+									collide(Opt.EL_UP, x, y+1) ||
+									(_tgdD != null && _tgdD.activeB) ||
+									(_boxD != null && !_boxD.moveDownB)
+								)?false:true;	
 					}else{
-						_mDown = (collide(Opt.WALL, x, y + 1)|| (_tgdD != null && _tgdD.activeB) || collide(Opt.BOX, x, y + 1))?false:true;	
+						_mDown = (	collide(Opt.WALL, x, y + 1) ||
+									collide(Opt.EL_LEFT, x, y+1) || 
+									collide(Opt.EL_RIGHT, x, y+1) ||
+									collide(Opt.EL_UP, x, y+1) ||
+									(_tgdD != null && _tgdD.activeB) || 
+									collide(Opt.BOX, x, y + 1)
+								)?false:true;	
 					}
 				}	
 				if (_kUp){
 					if (type!=Opt.PLAYER_SMALL) 
 					{
-						_mUp = (collide(Opt.WALL, x, y - 1) || (_tgdU != null && _tgdU.activeB) || (_boxU != null && !_boxU.moveUpB))?false:true;		
+						_mUp = 	(	collide(Opt.WALL, x, y - 1) ||
+									collide(Opt.EL_LEFT, x, y-1) || 
+									collide(Opt.EL_RIGHT, x, y-1) ||
+									collide(Opt.EL_DOWN, x, y-1) ||
+									(_tgdU != null && _tgdU.activeB) || 
+									(_boxU != null && !_boxU.moveUpB)
+								)?false:true;		
 					}else{
-						_mUp = (collide(Opt.WALL, x, y - 1)|| (_tgdU != null && _tgdU.activeB)  || collide(Opt.BOX, x, y - 1))?false:true;		
-					}
-					
+						_mUp = 	(	collide(Opt.WALL, x, y - 1) ||
+									collide(Opt.EL_LEFT, x, y-1) || 
+									collide(Opt.EL_RIGHT, x, y-1) ||
+									collide(Opt.EL_DOWN, x, y-1) ||
+									(_tgdU != null && _tgdU.activeB)  || 
+									collide(Opt.BOX, x, y - 1)
+								)?false:true;		
+					}					
 				}				
 			}
 		}
 		
 		
+		
 		private function move():void 
 		{
 			
-			//trace(type,width);
+			//trace("STEP: ",_step.move());
 			if (_playerB) 
 			{							
 				if (_mLeft) 
