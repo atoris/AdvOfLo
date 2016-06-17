@@ -12,14 +12,14 @@ package com.alsial.Entity
 	 * ...
 	 * @author Atoris
 	 */
-	public class Wall extends Entity
+	public class Plumb extends Entity
 	{
 		private var _tile:Tilemap;
 		private var _grid:Grid;
 		
-		public function Wall() 
+		public function Plumb() 
 		{
-			var arrLevel:Array = GameWorld.ARR_LEVEL_WALL;
+			var arrLevel:Array = GameWorld.ARR_LEVEL_ENTITY;
 			_tile = new Tilemap(FP.getBitmap(Res.SET), arrLevel[0].length*Opt.SIZE_CAGE, arrLevel.length*Opt.SIZE_CAGE, Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			_grid = new Grid(arrLevel[0].length*Opt.SIZE_CAGE, arrLevel.length*Opt.SIZE_CAGE, Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			mask = _grid;
@@ -30,15 +30,22 @@ package com.alsial.Entity
 			{
 				for (var j:int = 0; j < arrLevel[i].length;j++) 
 				{
-					if (arrLevel[i][j]!=5 && arrLevel[i][j]!=6) 
+					if (	arrLevel[i][j] == 42 || arrLevel[i][j] == 43 || arrLevel[i][j] == 44 || 
+						arrLevel[i][j] == 45 || arrLevel[i][j] == 46 || arrLevel[i][j] == 47 || 
+						arrLevel[i][j] == 48 || arrLevel[i][j] == 49 || arrLevel[i][j] == 50 ||
+						arrLevel[i][j] == 51 || arrLevel[i][j] == 52 || arrLevel[i][j] == 53 ||
+						arrLevel[i][j] == 54 || arrLevel[i][j] == 55) 						
 					{					
 						_tile.setRect(j, i,1,1,arrLevel[i][j]);
-						_grid.setRect(j, i,1,1,true);					
+						_grid.setRect(j, i, 1, 1, true);
+						
+					
 					}
+					
 					
 				}
 			}
-			type = Opt.WALL;
+			type = Opt.PLUMB;
 		}
 		
 	}

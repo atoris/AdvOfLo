@@ -7,9 +7,11 @@ package com.alsial
 	public class Opt 
 	{
 		
-		public static const SW:int 			= 800;
+		public static const SW:int 			= 640;
 		public static const SH:int 			= 480;
 		
+		public static const FLOOR:String		= "FLOOR";
+		public static const PLUMB:String		= "PLUMB";
 		public static const WALL:String 		= "WALL";
 		public static const PLAYER:String 		= "PLAYER";
 		public static const PLAYER_SMALL:String 	= "PLAYER_SMALL";
@@ -24,7 +26,7 @@ package com.alsial
 		public static const EL_DOWN:String		= "EL_DOWN";
 		public static const EL_LEFT:String		= "EL_LEFT";
 		public static const EL_UP:String		= "EL_UP";
-		
+		public static const POINT_BOX:String		= "POINT_BOX";
 		
 		
 		public static const SPEED:int 			= 4;		

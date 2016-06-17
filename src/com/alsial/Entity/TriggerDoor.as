@@ -27,8 +27,8 @@ package com.alsial.Entity
 			super(xPos, yPos);
 			type = Opt.TRIGGERDOOR;
 			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
-			sprSwordguy.add("N", [10], 20, true);
-			sprSwordguy.add("Y", [11], 20, true);
+			sprSwordguy.add("N", [22], 20, true);
+			sprSwordguy.add("Y", [23], 20, true);
 			graphic = sprSwordguy;
 			activeB = b;
 			_collide = new CollideEntity(this, [Opt.PLAYER_SMALL, Opt.BOX]);
@@ -41,7 +41,6 @@ package com.alsial.Entity
 		{
 			activeB = !activeB;
 			sprSwordguy.play( (activeB)?"Y":"N");			
-			
 		}
 		
 		public function get bool():Boolean 

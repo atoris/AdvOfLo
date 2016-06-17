@@ -19,10 +19,10 @@ package com.alsial.Entity
 			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;
 			y = yPos;
-			sprSwordguy.add("L", [22], 20, true);
-			sprSwordguy.add("R", [23], 20, true);
-			sprSwordguy.add("D", [24], 20, true);
-			sprSwordguy.add("U", [25], 20, true);
+			sprSwordguy.add("L", [16,17], 1, true);
+			sprSwordguy.add("R", [14,15], 1, true);
+			sprSwordguy.add("D", [18,19], 1, true);
+			sprSwordguy.add("U", [20,21], 1, true);
 			if (str=="L") 
 			{
 				type = Opt.EL_LEFT;
@@ -43,8 +43,28 @@ package com.alsial.Entity
 			graphic = sprSwordguy;			
 		}
 		
-		public function getLeft():int{
-			return 0;
+		public function reActive():void{
+			if (type==Opt.EL_LEFT) 
+			{
+				type = Opt.EL_RIGHT;
+				sprSwordguy.play("R");
+			}
+			else if (type==Opt.EL_RIGHT) 
+			{
+				type = Opt.EL_LEFT;
+				sprSwordguy.play("L");
+			}
+			else if (type==Opt.EL_UP) 
+			{
+				type = Opt.EL_DOWN;
+				sprSwordguy.play("D");
+			}
+			else if (type==Opt.EL_DOWN) 
+			{
+				type = Opt.EL_UP;
+				sprSwordguy.play("U");
+			}
+			trace(type);
 		}
 		
 		

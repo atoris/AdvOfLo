@@ -21,8 +21,8 @@ package com.alsial.Entity
 			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;
 			y = yPos;
-			sprSwordguy.add("y", [12], 20, true);
-			sprSwordguy.add("n", [13], 20, true);
+			sprSwordguy.add("y", [26], 20, true);
+			sprSwordguy.add("n", [27], 20, true);
 			
 			graphic = sprSwordguy;
 			_activeB = act;

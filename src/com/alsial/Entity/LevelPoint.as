@@ -21,7 +21,7 @@ package com.alsial.Entity
 			super(xPos, yPos);
 			type = Opt.LEVEL_POINTS;
 			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
-			sprSwordguy.add("N", [19], 20, true);
+			sprSwordguy.add("N", [28], 20, true);
 			graphic = sprSwordguy;
 			_collide = new CollideEntity(this, [Opt.PLAYER_SMALL, Opt.PLAYER]);
 			sprSwordguy.play("N");	

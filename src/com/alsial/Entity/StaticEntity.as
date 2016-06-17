@@ -28,9 +28,12 @@ package com.alsial.Entity
 		private var _tgdU:TriggerDoor;
 		
 		private var _collide:CollideEntity;
+		private var _activeB:Boolean;
+		private var _activeB2:Boolean;
+		protected var _img:Image;
 		public function StaticEntity(xPos:Number=0,yPos:Number=0) 
 		{
-			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.PLAYER_SMALL,Opt.TRIGGERDOOR,Opt.TRIGGERBUTTON]);
+			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.PLAYER_SMALL,Opt.TRIGGERDOOR,Opt.TRIGGERBUTTON,Opt.EL_DOWN,Opt.EL_LEFT,Opt.EL_RIGHT,Opt.EL_UP]);
 			
 		}
 		
@@ -60,6 +63,31 @@ package com.alsial.Entity
 			_moveRightB =	!_collide.getRight()//	&&!(tgdR != null && tgdR.activeB)//	&& !collide(Opt.PLAYER_SMALL,x+Opt.SIZE_CAGE/2+1,y);
 			_moveDownB =	!_collide.getDown()//	&&!(tgdD != null && tgdD.activeB)//	&& !collide(Opt.PLAYER_SMALL,x,y+Opt.SIZE_CAGE/2+1);
 			_moveUpB =	!_collide.getUp()//		&&!(tgdU != null && tgdU.activeB)//	&& !collide(Opt.PLAYER_SMALL,x,y-Opt.SIZE_CAGE/2+1);
+			
+			
+			if (collide(Opt.POINT_BOX,x,y))
+			{
+				if (!_activeB) 
+				{
+					Opt.numStar--;
+					
+					_activeB = true;
+					_activeB2 = true;
+					_img.color = 0x00FF00;
+					//_img.alpha = .5;
+					//trace(Opt.numStar);
+				}
+			}else{
+				if (_activeB2) 
+				{
+					_activeB2 = false;
+					_img.color = 0xFFFFFF;
+					_img.alpha = 1;
+					Opt.numStar++;
+					//trace(Opt.numStar);
+				}
+				_activeB = false;
+			}
 			
 			//trace(_collide.getLeft(),_collide.type);
 		}

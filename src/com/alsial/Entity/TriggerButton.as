@@ -23,13 +23,13 @@ package com.alsial.Entity
 		private var _collide:CollideEntity;
 		public function TriggerButton(xPos:Number, yPos:Number, b:Boolean) 
 		{
-			sprSwordguy.add("Y", [14], 20, true);
-			sprSwordguy.add("N", [15], 20, true);
+			sprSwordguy.add("Y", [24], 20, true);
+			sprSwordguy.add("N", [25], 20, true);
 			graphic = sprSwordguy;
 			activeB = b;
 			sprSwordguy.play((activeB)?"Y":"N");
 			
-			_collide = new CollideEntity(this, [Opt.PLAYER, Opt.BOX]);
+			_collide = new CollideEntity(this, [Opt.PLAYER, Opt.PLAYER_SMALL]);
 			type = Opt.TRIGGERBUTTON;
 			setHitbox(Opt.SIZE_CAGE, Opt.SIZE_CAGE);
 			x = xPos;

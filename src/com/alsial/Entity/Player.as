@@ -1,6 +1,7 @@
 package com.alsial.Entity 
 {
 	import com.alsial.CollideEntity;
+	import com.alsial.GameOver;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
@@ -116,7 +117,9 @@ package com.alsial.Entity
 				thr.reActive();
 				if (thr.boolDead) 
 				{
-					FP.world.remove(this);
+					//FP.world.remove(this);
+					FP.world.removeAll();
+					FP.world = new GameOver();
 				}
 			}
 			
@@ -137,6 +140,7 @@ package com.alsial.Entity
 									collide(Opt.EL_RIGHT, x - 1, y) || 
 									collide(Opt.EL_DOWN, x - 1, y) ||
 									collide(Opt.EL_UP, x - 1, y) ||
+									collide(Opt.PLUMB, x - 1, y) ||
 									(_tgdL != null && _tgdL.activeB) || 
 									(_boxL != null && !_boxL.moveLeftB)
 								)?false:true;					
@@ -158,6 +162,7 @@ package com.alsial.Entity
 									collide(Opt.EL_LEFT, x + 1, y) || 
 									collide(Opt.EL_DOWN, x+1, y) ||
 									collide(Opt.EL_UP, x+1, y) ||
+									collide(Opt.PLUMB, x+1, y) ||
 									(_tgdR != null && _tgdR.activeB) ||
 									(_boxR != null && !_boxR.moveRightB)
 								)?false:true;					
@@ -178,6 +183,7 @@ package com.alsial.Entity
 									collide(Opt.EL_LEFT, x, y+1) || 
 									collide(Opt.EL_RIGHT, x, y+1) ||
 									collide(Opt.EL_UP, x, y+1) ||
+									collide(Opt.PLUMB, x, y+1) ||
 									(_tgdD != null && _tgdD.activeB) ||
 									(_boxD != null && !_boxD.moveDownB)
 								)?false:true;	
@@ -198,6 +204,7 @@ package com.alsial.Entity
 									collide(Opt.EL_LEFT, x, y-1) || 
 									collide(Opt.EL_RIGHT, x, y-1) ||
 									collide(Opt.EL_DOWN, x, y-1) ||
+									collide(Opt.PLUMB, x, y-1) ||
 									(_tgdU != null && _tgdU.activeB) || 
 									(_boxU != null && !_boxU.moveUpB)
 								)?false:true;		

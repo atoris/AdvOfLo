@@ -5,6 +5,7 @@ package
 	import flash.events.Event;
 	import net.flashpunk.Engine;
 	import net.flashpunk.FP;
+	import com.alsial.MenuWorld;
 	
 	/**
 	 * ...
@@ -17,7 +18,8 @@ package
 		public function Main() 
 		{
 			super(640, 480, 60);
-			FP.world = new GameWorld();
+			FP.world = new MenuWorld();
+			//FP.world = new GameWorld();
 		}
 		override public function init():void 
 		{
