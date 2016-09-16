@@ -2,6 +2,7 @@ package com.alsial.Entity
 {
 	import com.alsial.CollideEntity;
 	import com.alsial.GameOver;
+	import flash.geom.Point;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
@@ -12,6 +13,7 @@ package com.alsial.Entity
 	import com.alsial.StepGame;
 	import com.alsial.Opt;
 	import net.flashpunk.FP;
+	import com.alsial.GameWorld;
 	/**
 	 * ...
 	 * @author Atoris
@@ -45,6 +47,7 @@ package com.alsial.Entity
 		private var _step:StepGame;
 		private var _stepMove:Boolean;
 		private var _playerB:Boolean=true;
+		private var _isTeleport:Boolean = false;
 		
 		public function Player(xPos:Number = 0, yPos:Number = 0, t:String = Opt.PLAYER) 
 		{
@@ -53,14 +56,11 @@ package com.alsial.Entity
 			_collide = new CollideEntity(this,[Opt.WALL,Opt.BOX,Opt.STAR,Opt.THORNS,Opt.TRIGGERBUTTON,Opt.TRIGGERDOOR]);			
 			if (type==Opt.PLAYER_SMALL) 
 			{
-				graphic = new Image(Res.ENEMY_EVIL);
-				
-				_playerB = false;	
-				
+				graphic = new Image(Res.ENEMY_EVIL);				
+				_playerB = false;					
 				
 			}else{
-				graphic = new Image(Res.PLAYER);
-				
+				graphic = new Image(Res.PLAYER);				
 				_playerB = true;
 				
 			}
@@ -119,7 +119,7 @@ package com.alsial.Entity
 				{
 					//FP.world.remove(this);
 					FP.world.removeAll();
-					FP.world = new GameOver();
+					FP.world = new GameOver("R");
 				}
 			}
 			
@@ -219,6 +219,8 @@ package com.alsial.Entity
 					}					
 				}				
 			}
+			
+			
 		}
 		
 		
@@ -291,6 +293,8 @@ package com.alsial.Entity
 				}
 			
 			}
+			
+			
 		}
 		
 		private function inputCheck():void 
@@ -381,6 +385,26 @@ package com.alsial.Entity
 		public function set mUp(value:Boolean):void 
 		{
 			_mUp = value;
+		}
+		
+		public function get isTeleport():Boolean 
+		{
+			return _isTeleport;
+		}
+		
+		public function set isTeleport(value:Boolean):void 
+		{
+			_isTeleport = value;
+		}
+		
+		public function get stepMove():Boolean 
+		{
+			return _stepMove;
+		}
+		
+		public function set stepMove(value:Boolean):void 
+		{
+			_stepMove = value;
 		}
 	}
 

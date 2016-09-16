@@ -9,6 +9,7 @@ package com.alsial
 	import com.alsial.Entity.Plumb;
 	import com.alsial.Entity.PointBox;
 	import com.alsial.Entity.Star;
+	import com.alsial.Entity.Teleport;
 	import com.alsial.Entity.Thorns;
 	import com.alsial.Entity.TriggerButton;
 	import com.alsial.Entity.TriggerDoor;
@@ -48,8 +49,8 @@ package com.alsial
 			ARR_LEVEL_ENTITY = _levels.arrLevelEntity;
 			ARR_LEVEL_WALL = _levels.arrLevelWall;
 			
-			FP.console.enable();
-			FP.console.toggleKey = Key.TAB;
+			//FP.console.enable();
+			//FP.console.toggleKey = Key.TAB;
 			createLevel();
 			
 		}
@@ -59,6 +60,7 @@ package com.alsial
 			add(new Wall());
 			add(new Floor());
 			add(new Plumb());
+			add(new Teleport());
 			addTriggerEntity();
 			addStaticEntity();
 			addDynamicEntity();	
@@ -130,12 +132,12 @@ package com.alsial
 						add(new Elevator(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE,"U"));
 					}
 					
-					if (ARR_LEVEL_ENTITY[i][j]==80) 
+					if (ARR_LEVEL_ENTITY[i][j]==80||ARR_LEVEL_ENTITY[i][j]==81||ARR_LEVEL_ENTITY[i][j]==82) 
 					{
 						add(new PointBox(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE));
 						Opt.numStar++;
 					}
-					trace(Opt.numStar);
+					//trace(Opt.numStar);
 				}
 			}
 		}
@@ -155,8 +157,8 @@ package com.alsial
 					{
 						Opt.numStar++;
 						add(new Star(j * Opt.SIZE_CAGE, i * Opt.SIZE_CAGE));
-					}
-					*/
+					}*/
+					
 					
 				}
 			}
@@ -192,15 +194,29 @@ package com.alsial
 			super.update();
 			
 			if (Opt.numStar==0) 
-			{			
-				Opt.ARR_LEVEL_POINTS[0] = _arrPoint[0].activeB;	
-				Opt.ARR_LEVEL_POINTS[1] = _arrPoint[1].activeB;
-				//var bp:Boolean=(=Opt.ARR_LEVEL_POINTS[0])
-				if (Opt.ARR_LEVEL_POINTS[1]&&Opt.ARR_LEVEL_POINTS[0]) 
+			{	
+				if (Opt.ARR_LEVEL_POINTS.length==1) 
 				{
-					FP.world.removeAll();
-					FP.world = new GameOver();
+					Opt.ARR_LEVEL_POINTS[0] = _arrPoint[0].activeB;
+					Opt.ARR_LEVEL_POINTS[1] = _arrPoint[1].activeB;
+					if (Opt.ARR_LEVEL_POINTS[1]&&Opt.ARR_LEVEL_POINTS[0]) 
+					{
+						FP.world.removeAll();
+						FP.world = new GameOver();
+					}
+				}else{
+					Opt.ARR_LEVEL_POINTS[0] = _arrPoint[0].activeB;
+					if (Opt.ARR_LEVEL_POINTS[0]) 
+					{
+						FP.world.removeAll();
+						FP.world = new GameOver();
+					}
 				}
+				
+				
+				
+				//var bp:Boolean=(=Opt.ARR_LEVEL_POINTS[0])
+				
 				//trace(Opt.ARR_LEVEL_POINTS[0],Opt.ARR_LEVEL_POINTS[1]);
 			}
 			
@@ -219,14 +235,20 @@ package com.alsial
 					
 				}
 				
-				trace("------------------");
+				//trace("------------------");
 				//trace("xxx");
 			}
 			if (Input.pressed(Key.R)) 
-				{
-					FP.world.removeAll();
-					FP.world = new GameOver();
-				}
+			{
+				FP.world.removeAll();
+				FP.world = new GameOver("R");
+			}
+				
+			if (Input.pressed(Key.ESCAPE)) 
+			{
+				FP.world.removeAll();
+				FP.world = new MenuWorld();
+			}
 		}
 		
 	}

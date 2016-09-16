@@ -27,7 +27,7 @@ package com.alsial
 		public static const EL_LEFT:String		= "EL_LEFT";
 		public static const EL_UP:String		= "EL_UP";
 		public static const POINT_BOX:String		= "POINT_BOX";
-		
+		public static const TELEPORT:String		= "TELEPORT";
 		
 		public static const SPEED:int 			= 4;		
 		public static var score:int 			= 0;
